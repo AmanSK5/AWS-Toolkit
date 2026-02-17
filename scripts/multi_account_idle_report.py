@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Scans our AWS accounts for idle resources that are costing us money:
+Scans defined AWS accounts for idle resources that are costing us money:
 stopped EC2 instances, unattached EBS volumes, unused EIPs, NAT gateways.
 
 Splits EBS volumes into "safe to delete" vs "needs K8s review" buckets
@@ -108,8 +108,8 @@ def scan_region(session, region, min_stopped_days, k8s_min_age):
     ec2 = session.client("ec2", region_name=region)
     findings = []       # safe-ish stuff we can just clean up
     k8s_findings = []   # need to check the cluster first, review the ID against things in use via kubectl
-    cost = 0.0          # kubectl get pv PVC ID HERE -o jsonpath='{.spec.csi.volumeHandle}{"\n"}'
-    k8s_cost = 0.0      # kubectl describe pvc -n FROM THE PVC ID COMMAND ABOVE | sed -n '/Used By:/,/Events:/p'
+    cost = 0.0              # kubectl get pv PVC ID HERE -o jsonpath='{.spec.csi.volumeHandle}{"\n"}'
+    k8s_cost = 0.0          # kubectl describe pvc -n FROM THE PVC ID COMMAND ABOVE | sed -n '/Used By:/,/Events:/p'
 
     # -- stopped instances sitting around with their EBS still attached --
     try:
