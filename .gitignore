@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# PowerShell
+*.log
+*.psd1
+*.psm1
+
+# VS Code
+.vscode/
